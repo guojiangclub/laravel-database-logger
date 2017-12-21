@@ -10,7 +10,7 @@ Log database query sql in Laravel Application.
 ### 需求
 
 1. 记录后台管理系统操作员的操作记录，核心是记录增，改，删操作。
-2. API 请求。
+2. 记录 API 请求的 SQL 执行结果。
 
 > Laravel debugger 未发现记录 API 请求 SQL 执行语句和时长，在 POSTMAN 中是无法分析 SQL 执行语句和效率的，有时候为了优化性能，需要知道每个功能点执行的SQL语句和时长。
 
@@ -23,7 +23,7 @@ Log database query sql in Laravel Application.
 
 ### 使用
 
-1. `composer require ibrand/DatabaseLogger`
+1. `composer require ibrand/laravel-database-logger`
 2. add `iBrand\DatabaseLogger\ServiceProvider::class` to section `providers` of  `config/app.php` file.
 3. add `databaselogger` middleware to route.
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace iBrand\DatabaseLogger;
+namespace Ibrand\DatabaseLogger;
 
 use Closure;
-use iBrand\DatabaseLogger\DbLogger;
+use Ibrand\DatabaseLogger\DbLogger;
 
 class Middleware
 {

@@ -6,7 +6,7 @@
  * Time: 21:24
  */
 
-namespace iBrand\DatabaseLogger;
+namespace Ibrand\DatabaseLogger;
 
 
 

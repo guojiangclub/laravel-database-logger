@@ -14,14 +14,21 @@
     }
   ],
   "require": {
-    "php": "^5.6|^7.0"
+    "php": ">=5.6"
   },
-
-
   "autoload": {
     "psr-4": {
-      "iBrand\\DatabaseLogger\\": "src/"
+      "Ibrand\\DatabaseLogger\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Ibrand\\Sms\\ServiceProvider"
+      ],
+      "aliases": {
+        "Sms": "Ibrand\\Sms\\Facade"
+      }
     }
   }
-
 }

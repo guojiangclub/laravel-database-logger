@@ -1,29 +1,38 @@
 ## Laravel Database Logger
 
-Log database query sql in Laravel Application.
+因实际需求开发此功能包，实际需求如下：
 
-因为实际项目需求才开发此功能包，如果要单纯的记录Laravel Database Query Log 是非常简单的，网上也有非常多的教程，可以自行搜索。
+1. 管理后台管理员操作记录，比如数据的增，改，删等操作。
+2. API 的 SQL 执行记录，方便分析 SQL 执行效率。 
 
-在 web 下，可以使用 Laravel Debugger 包来进行查看当前页面执行的SQL，可以不使用此包。
+主要实现如下功能：
 
+1. 日志文件区分匿名用户和 Guard 类型。
+2. 记录执行用户
+3. 支持记录指定 SQL 语句类型（SELECT,INSET INTO,UPDATE,DELETE,ALTER TABLE etc.）
 
-### 需求
+### 安装
 
-1. 记录后台管理系统操作员的操作记录，核心是记录增，改，删操作。
-2. 记录 API 请求的 SQL 执行结果。
+```
+composer require ibrand/laravel-database-logger:~1.0 -vvv
+```
 
-> Laravel debugger 未发现记录 API 请求 SQL 执行语句和时长，在 POSTMAN 中是无法分析 SQL 执行语句和效率的，有时候为了优化性能，需要知道每个功能点执行的SQL语句和时长。
+**低于 Laravel5.5 版本**
 
-### Feature
-1. 只支持文件记录
-2. 支持区分 Guard
-3. 记录执行用户
-4. 支持记录指定 SQL 类型（SELECT,INSET INTO,UPDATE,DELETE）
+在 `config/app.php` 文件中 'providers' 添加
+
+```
+Ibrand\DatabaseLogger\ServiceProvider::class
+```
+
+`php artisan vendor:publish --provider="Ibrand\DatabaseLogger\ServiceProvider" `
 
 
 ### 使用
 
-1. `composer require ibrand/laravel-database-logger`
-2. add `iBrand\DatabaseLogger\ServiceProvider::class` to section `providers` of  `config/app.php` file.
-3. add `databaselogger` middleware to route.
+1. add `databaselogger` middleware to route.
+2. set `log_queries=>true` in `config/ibrand/dblogger.php` file.
 
+### 其他参考
+
+//TODO::

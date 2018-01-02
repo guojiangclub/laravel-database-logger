@@ -1,10 +1,11 @@
 {
   "name": "ibrand/laravel-database-logger",
   "type": "library",
-  "description": "ibrand database log",
+  "description": "ibrand laravel database logger",
   "keywords": [
     "ibrand",
-    "database log"
+    "laravel",
+    "database logger"
   ],
   "license": "MIT",
   "authors": [
@@ -21,14 +22,12 @@
       "Ibrand\\DatabaseLogger\\": "src/"
     }
   },
+
   "extra": {
     "laravel": {
       "providers": [
         "Ibrand\\DatabaseLogger\\ServiceProvider"
-      ],
-      "aliases": {
-        "Sms": "Ibrand\\DatabaseLogger\\Facade"
-      }
+      ]
     }
   }
 }

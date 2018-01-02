@@ -24,10 +24,10 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Ibrand\\Sms\\ServiceProvider"
+        "Ibrand\\DatabaseLogger\\ServiceProvider"
       ],
       "aliases": {
-        "Sms": "Ibrand\\Sms\\Facade"
+        "Sms": "Ibrand\\DatabaseLogger\\Facade"
       }
     }
   }

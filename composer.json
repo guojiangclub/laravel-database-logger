@@ -19,14 +19,14 @@
   },
   "autoload": {
     "psr-4": {
-      "Ibrand\\DatabaseLogger\\": "src/"
+      "iBrand\\DatabaseLogger\\": "src/"
     }
   },
 
   "extra": {
     "laravel": {
       "providers": [
-        "Ibrand\\DatabaseLogger\\ServiceProvider"
+        "iBrand\\DatabaseLogger\\ServiceProvider"
       ]
     }
   }

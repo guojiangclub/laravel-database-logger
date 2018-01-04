@@ -6,14 +6,12 @@
  * Time: 21:24
  */
 
-namespace Ibrand\DatabaseLogger;
+namespace iBrand\DatabaseLogger;
 
 
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-
-    protected $defer = true;
 
     public function boot()
     {

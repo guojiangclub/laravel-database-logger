@@ -22,10 +22,10 @@ composer require ibrand/laravel-database-logger:~1.0 -vvv
 在 `config/app.php` 文件中 'providers' 添加
 
 ```
-Ibrand\DatabaseLogger\ServiceProvider::class
+iBrand\DatabaseLogger\ServiceProvider::class
 ```
 
-`php artisan vendor:publish --provider="Ibrand\DatabaseLogger\ServiceProvider" `
+`php artisan vendor:publish --provider="iBrand\DatabaseLogger\ServiceProvider" `
 
 
 ### 使用

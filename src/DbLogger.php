@@ -1,6 +1,6 @@
 <?php
 
-namespace Ibrand\DatabaseLogger;
+namespace iBrand\DatabaseLogger;
 
 /**
  * Created by PhpStorm.

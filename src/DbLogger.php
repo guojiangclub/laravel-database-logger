@@ -17,6 +17,9 @@ namespace iBrand\DatabaseLogger;
  * Date: 2017-03-23
  * Time: 12:40.
  */
+/**
+ * Class DbLogger.
+ */
 class DbLogger
 {
     /**
@@ -68,8 +71,14 @@ class DbLogger
      */
     protected $separateConsoleLog;
 
+    /**
+     * @var
+     */
     protected $user;
 
+    /**
+     * @var
+     */
     protected $guard;
 
     /**
@@ -89,21 +98,33 @@ class DbLogger
         $this->separateConsoleLog = config('ibrand.dblogger.log_console_to_separate_file');
     }
 
+    /**
+     * @param $user
+     */
     public function setOperator($user)
     {
         $this->user = $user;
     }
 
+    /**
+     * @param $guard
+     */
     public function setGuard($guard)
     {
         $this->guard = $guard;
     }
 
+    /**
+     * @return string
+     */
     protected function getOperator()
     {
         return $this->user ? $this->user->id : 'anonymous';
     }
 
+    /**
+     * @return string
+     */
     protected function getGuard()
     {
         return $this->guard ? $this->guard : 'anonymous';
@@ -138,6 +159,11 @@ class DbLogger
         $this->save($logData, $execTime, $queryNr);
     }
 
+    /**
+     * @param $query
+     *
+     * @return bool
+     */
     public function isNeedLog($query)
     {
         $guardLoggers = config('ibrand.dblogger.guards');

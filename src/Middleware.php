@@ -30,7 +30,7 @@ class Middleware
         if (config('ibrand.dblogger.log_queries') ||
             config('ibrand.dblogger.log_slow_queries')) {
             $user = null;
-            $currentGuard = '';
+            $currentGuard = null;
 
             $guards = array_keys(config('auth.guards'));
 

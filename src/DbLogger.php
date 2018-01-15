@@ -1,59 +1,68 @@
 <?php
 
+/*
+ * This file is part of ibrand/laravel-database-logger.
+ *
+ * (c) ibrand <https://www.ibrand.cc>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace iBrand\DatabaseLogger;
 
 /**
  * Created by PhpStorm.
  * User: Administrator
  * Date: 2017-03-23
- * Time: 12:40
+ * Time: 12:40.
  */
 class DbLogger
 {
     /**
-     * Application version
+     * Application version.
      *
      * @var string
      */
     protected $version;
     /**
-     * Whether SQL queries should be logged
+     * Whether SQL queries should be logged.
      *
      * @var bool
      */
     protected $logStatus;
     /**
-     * Whether slow SQL queries should be logged
+     * Whether slow SQL queries should be logged.
      *
      * @var bool
      */
     protected $slowLogStatus;
     /**
-     * Slow query execution time
+     * Slow query execution time.
      *
      * @var float
      */
     protected $slowLogTime;
     /**
-     * Whether log file should be overridden for each request
+     * Whether log file should be overridden for each request.
      *
      * @var bool
      */
     protected $override;
     /**
-     * Location where log files should be stored
+     * Location where log files should be stored.
      *
      * @var string
      */
     protected $directory;
     /**
-     * Whether query execution time should be converted to seconds
+     * Whether query execution time should be converted to seconds.
      *
      * @var bool
      */
     protected $convertToSeconds;
     /**
-     * Whether artisan queries should be saved into separate files
+     * Whether artisan queries should be saved into separate files.
      *
      * @var bool
      */
@@ -90,7 +99,6 @@ class DbLogger
         $this->guard = $guard;
     }
 
-
     protected function getOperator()
     {
         return $this->user ? $this->user->id : 'anonymous';
@@ -102,7 +110,7 @@ class DbLogger
     }
 
     /**
-     * Log query
+     * Log query.
      *
      * @param mixed $query
      * @param mixed $bindings
@@ -110,8 +118,9 @@ class DbLogger
      */
     public function log($query, $bindings, $time)
     {
-        if (!$this->isNeedLog($query))
+        if (!$this->isNeedLog($query)) {
             return;
+        }
 
         static $queryNr = 0;
         ++$queryNr;
@@ -119,15 +128,14 @@ class DbLogger
             list($sqlQuery, $execTime) =
                 $this->getSqlQuery($query, $bindings, $time);
         } catch (\Exception $e) {
-            $this->app->log->notice("SQL query {$queryNr} cannot be bound: " .
+            $this->app->log->notice("SQL query {$queryNr} cannot be bound: ".
                 $query);
+
             return;
         }
 
         $logData = $this->getLogData($queryNr, $sqlQuery, $execTime);
         $this->save($logData, $execTime, $queryNr);
-
-
     }
 
     public function isNeedLog($query)
@@ -139,24 +147,24 @@ class DbLogger
         }
 
         foreach ($guardLoggers as $guard => $queryType) {
-
-            if ($guard == 'anonymous' AND (str_contains($query->sql, $queryType) OR $queryType == 'all')) {
+            if ('anonymous' == $guard and (str_contains($query->sql, $queryType) or 'all' == $queryType)) {
                 return true;
             }
 
-            if ($guard == $this->guard AND (str_contains($query->sql, $queryType) OR $queryType == 'all')) {
+            if ($guard == $this->guard and (str_contains($query->sql, $queryType) or 'all' == $queryType)) {
                 return true;
             }
         }
+
         return false;
     }
 
     /**
-     * Save data to log file
+     * Save data to log file.
      *
      * @param string $data
-     * @param int $execTime
-     * @param int $queryNr
+     * @param int    $execTime
+     * @param int    $queryNr
      */
     protected function save($data, $execTime, $queryNr)
     {
@@ -164,49 +172,50 @@ class DbLogger
             $this->app->runningInConsole()) ? '-artisan' : '';
         // save normal query to file if enabled
         if ($this->logStatus) {
-            $this->saveLog($data, date('Y-m-d') . $filePrefix . '-log.sql',
-                ($queryNr == 1 && (bool)$this->override));
+            $this->saveLog($data, date('Y-m-d').$filePrefix.'-log.sql',
+                (1 == $queryNr && (bool) $this->override));
         }
         // save slow query to file if enabled
         if ($this->slowLogStatus && $execTime >= $this->slowLogTime) {
             $this->saveLog($data,
-                date('Y-m-d') . $filePrefix . '-slow-log.sql');
+                date('Y-m-d').$filePrefix.'-slow-log.sql');
         }
     }
 
     /**
-     * Save data to log file
+     * Save data to log file.
      *
      * @param string $data
      * @param string $fileName
-     * @param bool $override
+     * @param bool   $override
      */
     protected function saveLog($data, $fileName, $override = false)
     {
-        file_put_contents($this->directory . DIRECTORY_SEPARATOR . $this->getGuard() . '-' . $fileName,
+        file_put_contents($this->directory.DIRECTORY_SEPARATOR.$this->getGuard().'-'.$fileName,
             $data, $override ? 0 : FILE_APPEND);
     }
 
     /**
-     * Get full query information to be used to save it
+     * Get full query information to be used to save it.
      *
-     * @param int $queryNr
+     * @param int    $queryNr
      * @param string $query
-     * @param int $execTime
+     * @param int    $execTime
      *
      * @return string
      */
     protected function getLogData($queryNr, $query, $execTime)
     {
-        $time = $this->convertToSeconds ? ($execTime / 1000.0) . '.s'
-            : $execTime . 'ms';
-        return '/*' . ' operator:' . $this->getOperator() . ' url:' . request()->url() . ' Query ' . $queryNr . ' - ' . date('Y-m-d H:i:s') . ' [' .
-            $time . ']' . "  */\n" . $query . ';' .
+        $time = $this->convertToSeconds ? ($execTime / 1000.0).'.s'
+            : $execTime.'ms';
+
+        return '/*'.' operator:'.$this->getOperator().' url:'.request()->url().' Query '.$queryNr.' - '.date('Y-m-d H:i:s').' ['.
+            $time.']'."  */\n".$query.';'.
             "\n/*==================================================*/\n";
     }
 
     /**
-     * Get SQL query and query exection time
+     * Get SQL query and query exection time.
      *
      * @param mixed $query
      * @param mixed $bindings
@@ -231,8 +240,7 @@ class DbLogger
         // now we create full SQL query - in case of failure, we log this
         $query = str_replace(['%', '?', "\n"], ['%%', "'%s'", ' '], $query);
         $fullSql = vsprintf($query, $bindings);
+
         return [$fullSql, $execTime];
     }
-
-
 }

@@ -1,17 +1,26 @@
 <?php
 
+/*
+ * This file is part of ibrand/laravel-database-logger.
+ *
+ * (c) ibrand <https://www.ibrand.cc>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace iBrand\DatabaseLogger;
 
 use Closure;
-use iBrand\DatabaseLogger\DbLogger;
 
 class Middleware
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -20,7 +29,6 @@ class Middleware
         // executed queries
         if (config('ibrand.dblogger.log_queries') ||
             config('ibrand.dblogger.log_slow_queries')) {
-
             $user = null;
             $currentGuard = '';
 

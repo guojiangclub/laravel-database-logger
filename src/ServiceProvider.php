@@ -35,7 +35,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             return new DbLogger();
         });
 
-        $this->app[\Illuminate\Routing\Router::class]->middleware('databaselogger', Middleware::class);
+        $this->app[\Illuminate\Routing\Router::class]->aliasMiddleware('databaselogger', Middleware::class);
 
         //$this->app[\Illuminate\Contracts\Http\Kernel::class]->pushMiddleware(Middleware::class);
     }

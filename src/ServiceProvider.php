@@ -36,8 +36,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         });
 
         $this->app[\Illuminate\Routing\Router::class]->aliasMiddleware('databaselogger', Middleware::class);
-
-        //$this->app[\Illuminate\Contracts\Http\Kernel::class]->pushMiddleware(Middleware::class);
     }
 
     public function provides()

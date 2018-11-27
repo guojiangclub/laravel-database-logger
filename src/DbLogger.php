@@ -12,12 +12,6 @@
 namespace iBrand\DatabaseLogger;
 
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2017-03-23
- * Time: 12:40.
- */
-/**
  * Class DbLogger.
  */
 class DbLogger
@@ -93,7 +87,7 @@ class DbLogger
         $this->slowLogStatus = config('ibrand.dblogger.log_slow_queries');
         $this->slowLogTime = config('ibrand.dblogger.slow_queries_min_exec_time');
         $this->override = config('ibrand.dblogger.override_log');
-        $this->directory = storage_path('logs');
+        $this->directory = config('ibrand.dblogger.directory');
         $this->convertToSeconds = config('ibrand.dblogger.convert_to_seconds');
         $this->separateConsoleLog = config('ibrand.dblogger.log_console_to_separate_file');
     }
@@ -117,7 +111,7 @@ class DbLogger
     /**
      * @return string
      */
-    protected function getOperator()
+    public function getOperator()
     {
         return $this->user ? $this->user->id : 'anonymous';
     }
@@ -125,7 +119,7 @@ class DbLogger
     /**
      * @return string
      */
-    protected function getGuard()
+    public function getGuard()
     {
         return $this->guard ? $this->guard : 'anonymous';
     }
@@ -142,7 +136,6 @@ class DbLogger
         if (!$this->isNeedLog($query)) {
             return;
         }
-
         static $queryNr = 0;
         ++$queryNr;
         try {
@@ -217,6 +210,10 @@ class DbLogger
      */
     protected function saveLog($data, $fileName, $override = false)
     {
+        if (!file_exists($this->directory)) {
+            mkdir($this->directory);
+        }
+
         file_put_contents($this->directory.DIRECTORY_SEPARATOR.$this->getGuard().'-'.$fileName,
             $data, $override ? 0 : FILE_APPEND);
     }
